@@ -1,10 +1,15 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import  Http404
+from django.http import Http404
 from .models import Contato
 from django.core.paginator import Paginator
+from django.contrib import messages
+from django.db.models import Q, Value
+from django.db.models.functions import Concat
 
 
 def index(request):
+    messages.add_message(request,messages.ERROR, 'Ocorreu um erro')
+
     contatos = Contato.objects.order_by('nome').filter(
         mostrar=True
     )
@@ -28,10 +33,21 @@ def ver_contato(request, contato_id):
     })
 
 def busca(request):
-    contatos = Contato.objects.order_by('nome').filter(
-        mostrar=True
+    termo = request.GET.get('termo')
+
+    if termo is None or not termo:
+        return Http404()
+
+    campos = Concat('nome', Value(' '),  'sobrenome')
+
+    contatos = Contato.objects.annotate(
+        nome_completo=campos
+    ).filter(
+        Q(nome_completo__icontains=termo) | Q(
+            categoria__icontains=termo
+        )
     )
-    paginator = Paginator(contatos, 20)
+    paginator = Paginator(contatos, 10)
 
     page = request.GET.get('p')
     contatos = paginator.get_page(page)
