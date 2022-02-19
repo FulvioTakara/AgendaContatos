@@ -1,13 +1,16 @@
 from django.urls import path
-from .views import CategoriaAPIView, ContatoAPIView
+from .views import CategoriaAPIView, ContatoAPIView, \
+    ContatosAPIView, CategoriasAPIView
 
 from . import views
 
 
 
 urlpatterns = [
-    path('categoria', CategoriaAPIView.as_view(), name='categoria'),
-    path('contatos', ContatoAPIView.as_view(), name='contatos'),
-    path('<int:contato_id>', views.ver_contato, name='ver_contato'),
+    path('categorias', CategoriasAPIView.as_view(), name='categorias'),
+    path('categorias/<int:pk>/', CategoriaAPIView.as_view(), name='categoria'),
+    path('contatos', ContatosAPIView.as_view(), name='contatos'),
+    path('contatos/<int:pk>/', ContatoAPIView.as_view(), name='contato'),
+
     path('busca/', views.busca, name='busca'),
 ]
