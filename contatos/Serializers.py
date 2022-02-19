@@ -13,12 +13,11 @@ class CategoriaSerializer(serializers.ModelSerializer):
 class ContatoSerializer(serializers.ModelSerializer):
 
     class Meta:
-        """
+
         extra_kwargs = {
             'email': {'write_only':True},
             'telefone': {'write_only':True},
         }
-        """
 
         model = Contato
         fields = (
