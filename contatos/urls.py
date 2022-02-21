@@ -10,6 +10,7 @@ from .views import (
     ContatoViewSet,
     CategoriaViewSet,
 )
+from . import views1
 
 
 router = SimpleRouter()
@@ -26,10 +27,7 @@ urlpatterns = [
 
     path('contatos', ContatosAPIView.as_view(), name='contatos'),
     path('contatos/<int:contato_pk>/', ContatoAPIView.as_view(), name='contato'),
+
+    path('busca/', views1.busca, name='busca')
 ]
 
-"""
-
-from . import views
-path('busca/', views.busca, name='busca'),
-"""

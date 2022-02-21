@@ -7,7 +7,7 @@ class CategoriaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Categoria
-        fields = ('id', 'nome',)
+        fields = ('id', 'nome', )
 
 
 class ContatoSerializer(serializers.ModelSerializer):
@@ -15,8 +15,8 @@ class ContatoSerializer(serializers.ModelSerializer):
     class Meta:
 
         extra_kwargs = {
-            'email': {'write_only':True},
-            'telefone': {'write_only':True},
+            'email': {'write_only': True},
+            'telefone': {'write_only': True},
         }
 
         model = Contato

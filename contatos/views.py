@@ -1,6 +1,9 @@
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
+
 from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from .models import Contato, Categoria
 from .Serializers import CategoriaSerializer, ContatoSerializer
@@ -43,6 +46,12 @@ class ContatoAPIView(generics.RetrieveUpdateDestroyAPIView):
 class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
+
+    @action(detail=True, methods=['get'])
+    def contatos(self, request, pk=None):
+        categoria = self.get_object()
+        serializer = ContatoSerializer(categoria.contatos.all(), many=True)
+        return Response(serializer.data)
 
 
 class ContatoViewSet(viewsets.ModelViewSet):
